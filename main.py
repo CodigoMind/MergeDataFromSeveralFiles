@@ -9,7 +9,7 @@ def get_full_paths(list_directories):
     full_paths = list()
     for i in range(1,len(list_directories)):
         file = [x for x in list_directories[i][2] if re.match(patter, x)]
-        full_paths.append(list_directories[i][0] + "\\"+ file[0])
+        full_paths.append(os.path.join(list_directories[i][0], file[0]))
     return full_paths
 
 # get the data of each file in a excel file
@@ -36,13 +36,13 @@ def convert_files_to_excel(full_paths, col_names, patterns):
 
     # write the new xlsx file
     os.chdir("..")
-    data.to_excel(os.getcwd()+"\\dataMerged.xlsx", index = False)
+    data.to_excel(os.path.join(os.getcwd(), "dataMerged.xlsx"), index = False)
     print(os.getcwd())
-    return data
 
 if __name__ == "__main__":
 
     path_directory_father = input("Escriba el nombre de la carpeta que contiene el conjunto de carpeetas a escanear:")
+    #path_directory_father = "OneDrive-2022-03-07"
     os.chdir(path_directory_father)
     os.getcwd()
 
@@ -73,4 +73,4 @@ if __name__ == "__main__":
             "DIMENSIONES DEL PIXEL X,Y:(.+?)\nFORMATO", 
             "FORMATO:(.+?)\n")
 
-    proof = convert_files_to_excel(full_paths = full_paths, col_names = col_names, patterns = patterns)
+    convert_files_to_excel(full_paths = full_paths, col_names = col_names, patterns = patterns)
