@@ -4,12 +4,12 @@ from io import open
 import pandas as pd
 
 # function to get all the full paths
-def get_full_paths(list_directories):
-    patter = re.compile(".*\.txt")
+def get_full_paths(list_directories, index_directories_content, index_list_directories):
+    pattern = re.compile(".*\.txt")
     full_paths = list()
     for i in range(1,len(list_directories)):
-        file = [x for x in list_directories[i][2] if re.match(patter, x)]
-        full_paths.append(os.path.join(list_directories[i][0], file[0]))
+        file = [x for x in list_directories[i][index_directories_content] if re.match(pattern, x)]
+        full_paths.append(os.path.join(list_directories[i][index_list_directories], file[0]))
     return full_paths
 
 # get the data of each file in a excel file
@@ -49,8 +49,13 @@ if __name__ == "__main__":
     # get the name of the directories and files
     list_directories = list(os.walk("."))
 
+    index_directories_content = 2
+    index_list_directories = 0
+
     # get the paths of each file 
-    full_paths = get_full_paths(list_directories = list_directories)
+    full_paths = get_full_paths(list_directories = list_directories, 
+                            index_directories_content = index_directories_content,
+                            index_list_directories = index_list_directories)
 
     # set columns name and the patterns to find the data
     col_names = ("Ortofoto_Digital", "Fuente", "Procesamiento", 
